@@ -1,0 +1,4 @@
+package ThreeObjectOriented
+
+class classstudy {
+}
