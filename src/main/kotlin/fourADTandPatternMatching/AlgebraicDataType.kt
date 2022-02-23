@@ -1,0 +1,4 @@
+package fourADTandPatternMatching
+
+class AlgebraicDataType {
+}

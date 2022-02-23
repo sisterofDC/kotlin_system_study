@@ -13,7 +13,6 @@ class Customer(val name:String,val age:Int,val Vip:Boolean){
 
 //不同的访问控制原则
 
-
 fun main() {
     val wyx = Customer("wyx")
 }
