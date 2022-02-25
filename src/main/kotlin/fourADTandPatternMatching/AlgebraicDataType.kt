@@ -72,6 +72,20 @@ fun judge(expr: Expr):Expr= if (expr is Expr.Operate && expr.left is Expr.Num &&
     expr
 }
 
+//kotlin模式匹配
+
+
+fun judgeTwo(expr: Expr):Expr = when(expr){
+    is Expr.Num -> expr
+    is Expr.Operate -> when(expr){
+        Expr.Operate("+",Expr.Num(0),expr.right) -> expr.right
+        else -> expr
+    }
+}
+
+
+//面向對象分解
+
 
 
 fun main() {
