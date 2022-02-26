@@ -60,8 +60,40 @@ sealed class DataStructure{
 }
 
 sealed class Expr(){
-    data class Num(val value:Int):Expr()
-    data class Operate(val opName:String,val left:Expr,val right:Expr):Expr()
+
+    abstract fun IsNum(expr: Expr):Boolean
+    abstract fun IsOperate(expr: Expr):Boolean
+    abstract fun left():Expr
+    abstract fun right():Expr
+
+    data class Num(val value:Int):Expr() {
+        override fun IsNum(expr: Expr): Boolean= expr is Num
+        override fun IsOperate(expr: Expr):Boolean{
+            return false
+        }
+
+        override fun left(): Expr {
+            throw Throwable("no element")
+        }
+
+        override fun right(): Expr {
+            throw Throwable("no element")
+        }
+    }
+
+    data class Operate(val opName:String,val left:Expr,val right:Expr):Expr() {
+        override fun IsNum(expr: Expr): Boolean{
+            return false
+        }
+        override fun IsOperate(expr: Expr):Boolean= expr is Operate
+        override fun left(): Expr {
+            return left
+        }
+
+        override fun right(): Expr {
+            return right
+        }
+    }
 }
 
 //偽代碼 if(expr is "0 + x"||expr is "x + 0") x else expr
@@ -74,7 +106,6 @@ fun judge(expr: Expr):Expr= if (expr is Expr.Operate && expr.left is Expr.Num &&
 
 //kotlin模式匹配
 
-
 fun judgeTwo(expr: Expr):Expr = when(expr){
     is Expr.Num -> expr
     is Expr.Operate -> when(expr){
@@ -83,15 +114,32 @@ fun judgeTwo(expr: Expr):Expr = when(expr){
     }
 }
 
+fun judgeThree(expr: Expr):Expr =when(expr.IsNum(expr)){
+    true -> expr
+    false -> when(expr.left().IsNum(expr)){
+        true -> expr.left()
+        false -> expr.left().left()
+    }
+
+}
+
+fun returnAll(expr: Expr):List<Expr> {
+    val store = mutableListOf<Expr>()
+    return store
+}
+
 
 //面向對象分解
 
 
 
 fun main() {
-    val exprOne = Expr.Operate("+",Expr.Num(0),Expr.Num(1))
-    val exprTwo = Expr.Operate("+",Expr.Num(1),Expr.Num(0))
+    val exprOne = Expr.Operate("+",Expr.Num(1),Expr.Num(2))
+    val exprTwo = Expr.Operate("+",Expr.Num(3),Expr.Num(4))
+    val exprThree = Expr.Operate("-",exprOne,exprTwo)
+//    現在要做的是把exprThree中的exprone的num提取出來
 
-
+    val test = judgeThree(exprThree)
+    println(test)
 
 }
