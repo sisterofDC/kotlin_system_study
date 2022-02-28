@@ -123,6 +123,8 @@ fun judgeThree(expr: Expr):Expr =when(expr.IsNum(expr)){
 
 }
 
+
+
 fun returnAll(expr: Expr):List<Expr> {
     val store = mutableListOf<Expr>()
     return store
