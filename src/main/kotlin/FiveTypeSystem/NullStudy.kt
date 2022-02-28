@@ -76,25 +76,71 @@ fun getGlasses(seat: Seat){
 //更加語義化
 //自動類型轉換，在kotlin中<T>表示泛型
 
-class  Find<T>(val array: Array<T>){
-    fun <T> findMember():T{
-        
+//類的泛型申請在類名後面
+
+class  Find<T>(val list: MutableList<T>){
+    fun findMember(member:T):Int{
+        var result= list.indexOf(member)
+        return result
     }
+    fun addMember(member: T):MutableList<T>{
+        when(list.indexOf(member)){
+            -1 -> list.add(member)
+            else -> list
+        }
+        return list
+    }
+}
+//方法的泛型申請在方法前面
+fun <T> indexFunctionTwo(list: MutableList<T>,member: T):Int{
+    var result:Int = -1
+    var j =0
+    for (i in list) {
+        if (member == i) {
+            result = j
+        }
+        j++
+    }
+    return result
+}
+
+fun indexFunction(list: MutableList<Int>,member:Int):Int{
+    var result = -1
+    var j =0
+    for (i in list) {
+        if (member == i) {
+            result = j
+        }
+        j++
+    }
+    return result
 }
 
 
 
+
+
+
+
+
 fun main() {
-    val glasses =Glasses(5.1)
-    val student = Student(glasses)
-    val seat =Seat(student)
+//    val glasses =Glasses(5.1)
+//    val student = Student(glasses)
+//    val seat =Seat(student)
+//    val studentTwo = Student(null)
+//    val seatTwo = Seat(studentTwo)
+//    getGlasses(seat)
+//    getGlasses(seatTwo)
 
-    val studentTwo = Student(null)
-    val seatTwo = Seat(studentTwo)
+    var test = mutableListOf<Int>(1,2,3,4,5,6,7)
+    val result = test.indexOf(8)
+    val resultTwo = indexFunction(test,5)
+    println("this is ${result},${resultTwo}")
 
-    getGlasses(seat)
-    getGlasses(seatTwo)
-
+    val find = Find<Int>(test)
+    val resultThree = find.findMember(8)
+    val resultFour = find.addMember(10)
+    println("${resultThree} ${resultFour}")
 
 
 
